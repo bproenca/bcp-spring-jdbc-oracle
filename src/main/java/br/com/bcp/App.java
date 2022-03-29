@@ -11,6 +11,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 
 @SpringBootApplication
 public class App implements CommandLineRunner {
@@ -19,6 +21,9 @@ public class App implements CommandLineRunner {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
+	
+	@Autowired
+	private NamedParameterJdbcTemplate namedParameterjdbcTemplate;
 
 	public static void main(String[] args) {
 		SpringApplication.run(App.class, args);
@@ -28,10 +33,10 @@ public class App implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 
 		// Clean up
-		jdbcTemplate.update("delete from customer_tst where id <= ?", 4);
+		jdbcTemplate.update("delete from customer_tst where id <= ?", 5);
 
 		// Split up the array of whole names into an array of first/last names
-		List<Object[]> splitUpNames = Arrays.asList("1 John Woo", "2 Jeff Dean", "3 Josh Bloch", "4 Josh Long").stream()
+		List<Object[]> splitUpNames = Arrays.asList("1 John Woo", "2 Jeff Dean", "3 Josh One", "4 Josh Two", "5 Josh Three").stream()
 				.map(name -> name.split(" ")).collect(Collectors.toList());
 
 		// Use a stream to print out each tuple of the list
@@ -43,10 +48,25 @@ public class App implements CommandLineRunner {
 
 		log.info("Querying for customer records where first_name = 'Josh':");
 		jdbcTemplate
-				.query("SELECT id, first_name, last_name FROM customer_tst WHERE first_name = ?",
-						new Object[] { "Josh" }, (rs, rowNum) -> new Customer(rs.getLong("id"),
-								rs.getString("first_name"), rs.getString("last_name")))
-				.forEach(customer -> log.info(customer.toString()));
+				.queryForList(
+					"SELECT id, first_name, last_name FROM customer_tst WHERE first_name = ? ",
+					"Josh")
+						.forEach(customer -> log.info(customer.toString()));
+		
+		log.info("Querying for customer records where first_name = 'Josh' and last_name in ('One', 'Two')");
+		
+		String query = "SELECT * FROM customer_tst WHERE first_name = :fn";
+		query = query + " and last_name in (:ln)";
+
+		MapSqlParameterSource parameters = new MapSqlParameterSource();
+		parameters.addValue("fn", "Josh");
+		parameters.addValue("ln", Arrays.asList("Two", "Three", "One"));
+
+		namedParameterjdbcTemplate
+				.queryForList(
+					query, parameters)
+						.forEach(customer -> log.info(customer.toString()));
+		
 	}
 
 }
