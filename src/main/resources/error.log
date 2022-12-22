@@ -1,0 +1,75 @@
+bcp@JP037NT:~/wks/database/bcp-spring-jdbc-oracle$  cd /home/bcp/wks/database/bcp-spring-jdbc-oracle ; /usr/bin/env /usr/lib/jvm/java-17-openjdk-amd64/bin/java @/tmp/cp_8bjytl7cjwwnwh0ktfzofy7ol.argfile br.com.bcp.App 
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.3.0.RELEASE)
+
+2022-12-21 13:40:00.196  INFO 15453 --- [           main] br.com.bcp.App                           : Starting App on JP037NT with PID 15453 (/home/bcp/wks/database/bcp-spring-jdbc-oracle/target/classes started by bcp in /home/bcp/wks/database/bcp-spring-jdbc-oracle)
+2022-12-21 13:40:00.199  INFO 15453 --- [           main] br.com.bcp.App                           : No active profile set, falling back to default profiles: default
+2022-12-21 13:40:01.074  INFO 15453 --- [           main] br.com.bcp.App                           : Started App in 1.221 seconds (JVM running for 1.511)
+2022-12-21 13:40:01.077 DEBUG 15453 --- [           main] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2022-12-21 13:40:01.078 DEBUG 15453 --- [           main] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO customer_tst(FIRST_NAME, LAST_NAME, BIRTHDAY, SALARY) VALUES (?,?,?,?)]
+2022-12-21 13:40:01.082  INFO 15453 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-12-21 13:40:01.452  INFO 15453 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-12-21 13:40:01.596 DEBUG 15453 --- [           main] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL update
+2022-12-21 13:40:01.596 DEBUG 15453 --- [           main] o.s.jdbc.core.JdbcTemplate               : Executing prepared SQL statement [INSERT INTO customer_tst(FIRST_NAME, LAST_NAME, BIRTHDAY, SALARY) VALUES (?,?,?,?)]
+2022-12-21 13:40:01.750  INFO 15453 --- [           main] ConditionEvaluationReportLoggingListener : 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2022-12-21 13:40:01.756 ERROR 15453 --- [           main] o.s.boot.SpringApplication               : Application run failed
+
+java.lang.IllegalStateException: Failed to execute CommandLineRunner
+        at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:798) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        at org.springframework.boot.SpringApplication.callRunners(SpringApplication.java:779) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        at org.springframework.boot.SpringApplication.run(SpringApplication.java:322) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        at br.com.bcp.App.main(App.java:22) ~[classes/:na]
+Caused by: org.springframework.jdbc.UncategorizedSQLException: PreparedStatementCallback; uncategorized SQLException for SQL [INSERT INTO customer_tst(FIRST_NAME, LAST_NAME, BIRTHDAY, SALARY) VALUES (?,?,?,?)]; SQL state [72000]; error code [12899]; ORA-12899: value too large for column "BCP"."CUSTOMER_TST"."LAST_NAME" (actual: 46, maximum: 20)
+; nested exception is java.sql.SQLException: ORA-12899: value too large for column "BCP"."CUSTOMER_TST"."LAST_NAME" (actual: 46, maximum: 20)
+
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:89) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.support.AbstractFallbackSQLExceptionTranslator.translate(AbstractFallbackSQLExceptionTranslator.java:81) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.translateException(JdbcTemplate.java:1443) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:633) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:862) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:917) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.update(JdbcTemplate.java:927) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at br.com.bcp.App.run(App.java:33) ~[classes/:na]
+        at org.springframework.boot.SpringApplication.callRunner(SpringApplication.java:795) ~[spring-boot-2.3.0.RELEASE.jar:2.3.0.RELEASE]
+        ... 5 common frames omitted
+Caused by: java.sql.SQLException: ORA-12899: value too large for column "BCP"."CUSTOMER_TST"."LAST_NAME" (actual: 46, maximum: 20)
+
+        at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:509) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:461) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4C8Oall.processError(T4C8Oall.java:1104) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CTTIfun.receive(T4CTTIfun.java:550) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CTTIfun.doRPC(T4CTTIfun.java:268) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4C8Oall.doOALL(T4C8Oall.java:655) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:270) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CPreparedStatement.doOall8(T4CPreparedStatement.java:91) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CPreparedStatement.executeForRows(T4CPreparedStatement.java:970) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.OracleStatement.doExecuteWithTimeout(OracleStatement.java:1205) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.OraclePreparedStatement.executeInternal(OraclePreparedStatement.java:3666) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.T4CPreparedStatement.executeInternal(T4CPreparedStatement.java:1426) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.OraclePreparedStatement.executeLargeUpdate(OraclePreparedStatement.java:3756) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.OraclePreparedStatement.executeUpdate(OraclePreparedStatement.java:3736) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at oracle.jdbc.driver.OraclePreparedStatementWrapper.executeUpdate(OraclePreparedStatementWrapper.java:1063) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        at com.zaxxer.hikari.pool.ProxyPreparedStatement.executeUpdate(ProxyPreparedStatement.java:61) ~[HikariCP-3.4.5.jar:na]
+        at com.zaxxer.hikari.pool.HikariProxyPreparedStatement.executeUpdate(HikariProxyPreparedStatement.java) ~[HikariCP-3.4.5.jar:na]
+        at org.springframework.jdbc.core.JdbcTemplate.lambda$update$0(JdbcTemplate.java:867) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        at org.springframework.jdbc.core.JdbcTemplate.execute(JdbcTemplate.java:617) ~[spring-jdbc-5.2.6.RELEASE.jar:5.2.6.RELEASE]
+        ... 10 common frames omitted
+Caused by: oracle.jdbc.OracleDatabaseException: ORA-12899: value too large for column "BCP"."CUSTOMER_TST"."LAST_NAME" (actual: 46, maximum: 20)
+
+        at oracle.jdbc.driver.T4CTTIoer11.processError(T4CTTIoer11.java:513) ~[ojdbc8-19.3.0.0.jar:19.3.0.0.0]
+        ... 28 common frames omitted
+
+2022-12-21 13:40:01.760  INFO 15453 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-12-21 13:40:01.797  INFO 15453 --- [           main] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
+bcp@JP037NT:~/wks/database/bcp-spring-jdbc-oracle$ 
