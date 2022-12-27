@@ -1,6 +1,6 @@
 # BCP Spring JDBC Oracle
 
-Template (starter) form spring-jdbc with Oracle DB
+Template (starter) form spring-jdbc with Oracle DB.
 
 ### Config Env:
 
